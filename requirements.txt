@@ -4,8 +4,7 @@ python-dotenv==1.0.0
 requests==2.31.0
 
 # DMX Control
-pydmxcontrol==1.0.4  # Change according to the controller you use
-# ola-py (alternative if you use Open Lighting Architecture)
+pydmxcontrol
 
 # Color Palette Extraction
 colorthief==0.2.1
