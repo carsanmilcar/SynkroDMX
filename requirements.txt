@@ -1,0 +1,23 @@
+# Spotify Integration
+spotipy==2.23.0
+python-dotenv==1.0.0
+requests==2.31.0
+
+# DMX Control
+pydmxcontrol==1.0.4  # Change according to the controller you use
+# ola-py (alternative if you use Open Lighting Architecture)
+
+# Color Palette Extraction
+colorthief==0.2.1
+
+# Scheduling and Timing
+schedule==1.1.0
+
+# Development and Testing
+pytest==7.4.2
+flake8==6.1.0
+mypy==1.5.1
+
+# Optional for advanced configurations and visualization
+pandas==2.1.1
+matplotlib==3.8.0
