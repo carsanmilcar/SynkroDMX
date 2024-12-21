@@ -1,0 +1,31 @@
+[project]
+name = "spotifyDMX"
+version = "0.1.0"
+description = "Spotify to dmx"
+authors = [
+    {name = "carsanmilcar", email = "carsanmilcar@gmail.com"},
+]
+dependencies = [
+    "spotipy==2.23.0",
+    "python-dotenv==1.0.0",
+    "requests==2.31.0",
+    "pydmxcontrol",
+    "colorthief==0.2.1",
+    "schedule==1.1.0",
+    "pytest==7.4.2",
+    "flake8==6.1.0",
+    "mypy==1.5.1",
+    "pandas==2.1.1",
+    "matplotlib==3.8.0",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
