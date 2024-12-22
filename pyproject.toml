@@ -1,5 +1,5 @@
 [project]
-name = "spotifyDMX"
+name = "SynkroDMX"
 version = "0.1.0"
 description = "Spotify to dmx"
 authors = [
