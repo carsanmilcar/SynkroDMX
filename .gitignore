@@ -1,3 +1,20 @@
-/.venv
-*venv
+# Ignore virtual environment directories
+.venv/
+*venv/
+
+# Ignore environment variable files
 .env
+
+# Ignore cache files and directories
+.cache*
+**/.cache*
+*.cache
+
+# Ignore Visual Studio Code configuration files
+.vscode
+
+# Ignore all hidden files and directories except specific ones
+.*
+!.gitignore       # Do not ignore the .gitignore file
+!.gitattributes   # Do not ignore the .gitattributes file
+!.github/         # Do not ignore the .github directory
