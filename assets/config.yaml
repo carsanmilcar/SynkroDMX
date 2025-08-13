@@ -1,0 +1,17 @@
+universe: 1
+fps: 40
+spotify:
+  device_preferred: ""
+fixtures:
+  - name: PAR_BACK_1
+    start_channel: 1
+    profile: rgb_dimmer
+  - name: PAR_BACK_2
+    start_channel: 5
+    profile: rgb_dimmer
+palettes:
+  rock: ["#8B0000", "#FFFFFF", "#FF4500"]
+  edm:  ["#00FFFF", "#FF00FF", "#FFFF00"]
+genre_map:
+  verse:  {intensity: 0.5, movement: "slow_pan"}
+  chorus: {intensity: 1.0, movement: "fast_circle", strobe: true}
