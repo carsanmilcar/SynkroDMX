@@ -1,0 +1,103 @@
+
+
+# <img    src="source/assets/synkroDMX.png"    alt="SynkroDMX"    height="80"  > SynkroDMX
+
+
+**Synkro DMX Sync** is a Python-based system for synchronizing DMX-controlled lighting with music played from streaming services such as Spotify.  
+It processes musical structure and timing information - derived from MIDI analysis of the upcoming track - and maps it to preconfigured lighting scenes and effects.  
+The result is a fully automated, beat-accurate light show that adapts to every section, accent, and transition of a song.
+
+---
+
+## Features
+
+- **MIDI-Based Music Analysis**  
+  - Load and parse MIDI files converted from Guitar Pro tabs (e.g., downloaded from Songsterr).  
+  - Extract tempo, time signatures, beats, drum hits, and structural sections.  
+  - Optional local genre estimation to adapt color palettes and effects.
+
+- **Dynamic DMX Lighting Control**  
+  - Send DMX frames directly to [OLA](https://www.openlighting.org/ola/) via its Python API or Art-Net.  
+  - Support for RGB/CMY colors, dimmer control, strobe, movement patterns, and custom effects.  
+  - Flexible fixture mapping via configuration files.
+
+- **Real-Time Synchronization with Spotify**  
+  - Monitor playback state via the Spotify Web API (using [Spotipy](https://spotipy.readthedocs.io/)).  
+  - Detect the exact start of the next song and launch the prepared lighting timeline in sync.  
+  - Millisecond-level scheduling for accurate cue triggering.
+
+- **Scene and Cue Generation**  
+  - Map musical sections (intro, verse, chorus, bridge…) to predefined lighting scenes.  
+  - Trigger one-off effects (strobes, color bumps, blackouts) on drum accents or other rhythmic events.  
+  - Configurable palettes and effect logic per genre or track.
+
+- **Modular & Extensible Architecture**  
+  - Separate modules for music analysis, scene generation, DMX output, and playback sync.  
+  - Easy to add new lighting devices, scene types, or analysis logic.  
+  - Designed for both live performance and offline show precompilation.
+
+---
+
+## Repository Structure
+
+```plaintext
+SynkroDMX/
+├── README.md                  # Project description and usage
+├── requirements.txt           # Python dependencies
+├── main.py                    # Main CLI entry point
+├── source/                    # Core source code
+│   ├── __init__.py
+│   ├── audio/                 # Playback sync & music analysis
+│   │   ├── __init__.py
+│   │   ├── midi_loader.py
+│   │   ├── tempo_map.py
+│   │   ├── sections.py
+│   │   └── spotify_sync.py
+│   ├── dmx/                   # DMX output & fixture mapping
+│   │   ├── __init__.py
+│   │   ├── ola_client.py
+│   │   └── patch.py
+│   ├── scenes/                # Scene and cue logic
+│   │   ├── __init__.py
+│   │   ├── generators.py
+│   │   └── cues.py
+│   └── pipeline/              # End-to-end show builder
+│       └── build_show.py
+├── tests/                     # Unit and integration tests
+│   ├── __init__.py
+│   ├── test_midi.py
+│   ├── test_dmx.py
+│   ├── test_scenes.py
+│   └── test_pipeline.py
+├── docs/                      # Documentation
+│   ├── architecture.md
+│   └── api_reference.md
+└── assets/                    # Static files & configuration
+    ├── config.yaml
+    └── example_scene.json
+```
+
+---
+
+## Getting Started
+
+1. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Run the Pipeline**
+   ```bash
+   python main.py run --track <spotify_track_id> --midi <file.mid>
+   ```
+
+3. **Preview Without Lights**
+   ```bash
+   python main.py dry-run --midi <file.mid>
+   ```
+
+---
+
+## License
+
+This project is released under the MIT License.
