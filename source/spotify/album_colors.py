@@ -1,117 +1,125 @@
-import os
-from dotenv import load_dotenv
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-import requests
+from __future__ import annotations
+
+from typing import Dict, List, Optional, Tuple
 from io import BytesIO
+
+import requests
+import spotipy
 from colorthief import ColorThief
 
-# ===========================
-# Configuration and Setup
-# ===========================
+from .playback import get_now_playing
 
-# Load environment variables from .env file
-load_dotenv()
 
-# Retrieve credentials from environment variables
-SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
-SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-SPOTIFY_REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
+RGB = Tuple[int, int, int]
+Palette = Dict[str, List[RGB]]
 
-# Verify that required credentials are present
-if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET or not SPOTIFY_REDIRECT_URI:
-    raise ValueError("Missing one of the required environment variables: "
-                     "SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI.")
 
-# Define the necessary scope
-scope = "user-read-currently-playing"
-
-# Initialize the Spotipy client with OAuth
-auth_manager = SpotifyOAuth(
-    client_id=SPOTIFY_CLIENT_ID,
-    client_secret=SPOTIFY_CLIENT_SECRET,
-    redirect_uri=SPOTIFY_REDIRECT_URI,
-    scope=scope,
-    cache_path=".cache-spotify"  # Ensure this is in your .gitignore
-)
-sp = spotipy.Spotify(auth_manager=auth_manager)
-
-# ===========================
-# Function to Retrieve Album Colors
-# ===========================
-
-def get_current_album_colors():
+def _album_cover_url_from_item(item: Dict) -> Optional[str]:
     """
-    Retrieves the dominant color and a palette of colors from the currently playing track's album cover.
-
-    Returns:
-        dict: A dictionary containing the dominant color and the color palette.
-              Example:
-              {
-                  "dominant_color": (R, G, B),
-                  "palette": [(R1, G1, B1), (R2, G2, B2), ...]
-              }
+    Extrae la URL de la carátula a partir de un objeto de track (catálogo).
+    Prefiere la imagen más grande (images[0]).
     """
-    # Get the currently playing track
-    current_track = sp.current_user_playing_track()
+    album = item.get("album") or {}
+    images = album.get("images") or []
+    if not images:
+        return None
+    return images[0].get("url") or None
 
-    if current_track and current_track.get('item'):
-        # Extract the album images
-        images = current_track['item']['album']['images']
-        # Typically images[0] is the largest image
-        if images:
-            album_cover_url = images[0]['url']
-            print("Currently playing album cover URL:", album_cover_url)
-            
-            # ===========================
-            # Download the Album Cover Image into Memory
-            # ===========================
-            try:
-                response = requests.get(album_cover_url)
-                response.raise_for_status()  # Raise an error for bad status codes
-                image_data = response.content
-                image_stream = BytesIO(image_data)
-                print("Album cover downloaded into memory.")
-            except requests.exceptions.RequestException as e:
-                print(f"Error downloading the album cover: {e}")
-                return None
-            
-            # ===========================
-            # Extract Color Palette from In-Memory Image
-            # ===========================
-            try:
-                color_thief = ColorThief(image_stream)
-                # Get the dominant color
-                dominant_color = color_thief.get_color(quality=1)
-                # Get a palette of 5 colors
-                palette = color_thief.get_palette(color_count=5, quality=1)
-                print("Dominant color (RGB):", dominant_color)
-                print("Color palette (RGB):", palette)
-                
-                # Create a vector containing all colors
-                color_vector = {
-                    "dominant_color": dominant_color,
-                    "palette": palette
-                }
-                return color_vector
-            except Exception as e:
-                print(f"Error extracting color palette: {e}")
-                return None
-        else:
-            print("No album images found for the currently playing track.")
-            return None
-    else:
-        print("No track is currently playing.")
+
+def get_album_cover_url(sp: spotipy.Spotify, track_id: Optional[str] = None) -> Optional[str]:
+    """
+    Devuelve la URL de la carátula del álbum:
+    - Si se pasa track_id: consulta /tracks/{id}.
+    - Si no: usa el ítem en reproducción vía get_now_playing().
+    """
+    if track_id:
+        try:
+            tr = sp.track(track_id)
+            return _album_cover_url_from_item(tr)
+        except Exception:
+            # Degradar a now playing si el track fallara
+            pass
+
+    pb = get_now_playing(sp)
+    if pb and pb.get("item"):
+        return _album_cover_url_from_item(pb["item"])
+    return None
+
+
+def download_image_bytes(url: str, timeout: float = 10.0) -> Optional[bytes]:
+    """
+    Descarga la imagen en memoria y devuelve su contenido como bytes.
+    """
+    try:
+        resp = requests.get(url, timeout=timeout)
+        resp.raise_for_status()
+        return resp.content
+    except requests.RequestException:
         return None
 
-# ===========================
-# Main Execution
-# ===========================
+
+def extract_album_colors_from_bytes(
+    image_bytes: bytes,
+    color_count: int = 5,
+    quality: int = 1,
+) -> Optional[Palette]:
+    """
+    Extrae color dominante y paleta usando ColorThief a partir de bytes de imagen.
+    """
+    try:
+        thief = ColorThief(BytesIO(image_bytes))
+        dominant = thief.get_color(quality=quality)
+        palette_list = thief.get_palette(color_count=color_count, quality=quality) or []
+        # Normaliza a tuplas
+        dom_t = (int(dominant[0]), int(dominant[1]), int(dominant[2]))
+        pal_t = [tuple(map(int, p)) for p in palette_list]
+        return {"dominant_color": [dom_t], "palette": pal_t}
+    except Exception:
+        return None
+
+
+def get_current_album_colors(
+    sp: spotipy.Spotify,
+    color_count: int = 5,
+    quality: int = 1,
+) -> Optional[Palette]:
+    """
+    Obtiene colores del álbum del tema actual (o None si no hay reproducción).
+    """
+    url = get_album_cover_url(sp)
+    if not url:
+        return None
+    img = download_image_bytes(url)
+    if not img:
+        return None
+    return extract_album_colors_from_bytes(img, color_count=color_count, quality=quality)
+
+
+def get_album_colors_for_schedule_item(
+    sp: spotipy.Spotify,
+    schedule_item: Dict,
+    color_count: int = 5,
+    quality: int = 1,
+) -> Optional[Palette]:
+    """
+    Obtiene colores de álbum a partir de un item del planificador (build_schedule).
+    Usa 'track_id' si está disponible.
+    """
+    track_id = schedule_item.get("track_id")
+    url = get_album_cover_url(sp, track_id=track_id)
+    if not url:
+        return None
+    img = download_image_bytes(url)
+    if not img:
+        return None
+    return extract_album_colors_from_bytes(img, color_count=color_count, quality=quality)
+
 
 if __name__ == "__main__":
-    colors = get_current_album_colors()
-    if colors:
-        print("\nRetrieved Album Colors:")
-        print(colors)
-    else:
-        print("\nFailed to retrieve album colors.")
+    # Ejemplo interactivo rápido: requiere variables de entorno y scope apropiado.
+    from .auth import create_spotify_client
+
+    scope = "user-read-currently-playing user-read-playback-state"
+    sp_client = create_spotify_client(scope=scope)
+    colors = get_current_album_colors(sp_client)
+    print(colors if colors else "No se pudieron extraer colores.")

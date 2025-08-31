@@ -1,0 +1,338 @@
+[
+  {
+    "track_id": "66wnTJJ7Vo0GW02CMP3etR",
+    "uri": "spotify:track:66wnTJJ7Vo0GW02CMP3etR",
+    "title": "Right on Time",
+    "artist": "Red Hot Chili Peppers",
+    "artist_id": "0L8ExT028jH3ddEcZwqJJ5",
+    "genres": [
+      "funk rock",
+      "alternative rock",
+      "rock"
+    ],
+    "type": "track",
+    "start_at_ms": 1756633533457,
+    "end_at_ms": 1756633645990,
+    "duration_ms": 112533,
+    "context_uri": "spotify:album:2Y9IRtehByVkegoD7TcLfi",
+    "is_current": true,
+    "progress_ms": 46253,
+    "timestamp_ms": 1756633579710,
+    "colors": {
+      "dominant_color": [
+        [
+          21,
+          101,
+          157
+        ]
+      ],
+      "palette": [
+        [
+          21,
+          101,
+          157
+        ],
+        [
+          196,
+          93,
+          49
+        ],
+        [
+          230,
+          213,
+          183
+        ],
+        [
+          91,
+          75,
+          60
+        ],
+        [
+          112,
+          156,
+          195
+        ]
+      ]
+    }
+  },
+  {
+    "track_id": "1XxCiPw07rd1ytYnE7SoJI",
+    "uri": "spotify:track:1XxCiPw07rd1ytYnE7SoJI",
+    "title": "Road Trippin'",
+    "artist": "Red Hot Chili Peppers",
+    "artist_id": "0L8ExT028jH3ddEcZwqJJ5",
+    "genres": [
+      "funk rock",
+      "alternative rock",
+      "rock"
+    ],
+    "type": "track",
+    "start_at_ms": 1756633645990,
+    "end_at_ms": 1756633850963,
+    "duration_ms": 204973,
+    "context_uri": null,
+    "is_current": false,
+    "progress_ms": null,
+    "timestamp_ms": null,
+    "colors": {
+      "dominant_color": [
+        [
+          21,
+          101,
+          157
+        ]
+      ],
+      "palette": [
+        [
+          21,
+          101,
+          157
+        ],
+        [
+          196,
+          93,
+          49
+        ],
+        [
+          230,
+          213,
+          183
+        ],
+        [
+          91,
+          75,
+          60
+        ],
+        [
+          112,
+          156,
+          195
+        ]
+      ]
+    }
+  },
+  {
+    "track_id": "3BW34zpQNgRUwuQ4eUyzMN",
+    "uri": "spotify:track:3BW34zpQNgRUwuQ4eUyzMN",
+    "title": "Fat Dance - 2006 Remaster",
+    "artist": "Red Hot Chili Peppers",
+    "artist_id": "0L8ExT028jH3ddEcZwqJJ5",
+    "genres": [
+      "funk rock",
+      "alternative rock",
+      "rock"
+    ],
+    "type": "track",
+    "start_at_ms": 1756633850963,
+    "end_at_ms": 1756634071462,
+    "duration_ms": 220499,
+    "context_uri": null,
+    "is_current": false,
+    "progress_ms": null,
+    "timestamp_ms": null,
+    "colors": {
+      "dominant_color": [
+        [
+          21,
+          101,
+          157
+        ]
+      ],
+      "palette": [
+        [
+          21,
+          101,
+          157
+        ],
+        [
+          196,
+          93,
+          49
+        ],
+        [
+          230,
+          213,
+          183
+        ],
+        [
+          91,
+          75,
+          60
+        ],
+        [
+          112,
+          156,
+          195
+        ]
+      ]
+    }
+  },
+  {
+    "track_id": "0809RpHic1xrZzh9CT4wXo",
+    "uri": "spotify:track:0809RpHic1xrZzh9CT4wXo",
+    "title": "Over Funk - 2006 Remaster",
+    "artist": "Red Hot Chili Peppers",
+    "artist_id": "0L8ExT028jH3ddEcZwqJJ5",
+    "genres": [
+      "funk rock",
+      "alternative rock",
+      "rock"
+    ],
+    "type": "track",
+    "start_at_ms": 1756634071462,
+    "end_at_ms": 1756634249822,
+    "duration_ms": 178360,
+    "context_uri": null,
+    "is_current": false,
+    "progress_ms": null,
+    "timestamp_ms": null,
+    "colors": {
+      "dominant_color": [
+        [
+          21,
+          101,
+          157
+        ]
+      ],
+      "palette": [
+        [
+          21,
+          101,
+          157
+        ],
+        [
+          196,
+          93,
+          49
+        ],
+        [
+          230,
+          213,
+          183
+        ],
+        [
+          91,
+          75,
+          60
+        ],
+        [
+          112,
+          156,
+          195
+        ]
+      ]
+    }
+  },
+  {
+    "track_id": "28w7CPWQCqQxt0YCzDN75b",
+    "uri": "spotify:track:28w7CPWQCqQxt0YCzDN75b",
+    "title": "Quixoticelixer - 2006 Remaster",
+    "artist": "Red Hot Chili Peppers",
+    "artist_id": "0L8ExT028jH3ddEcZwqJJ5",
+    "genres": [
+      "funk rock",
+      "alternative rock",
+      "rock"
+    ],
+    "type": "track",
+    "start_at_ms": 1756634249822,
+    "end_at_ms": 1756634538048,
+    "duration_ms": 288226,
+    "context_uri": null,
+    "is_current": false,
+    "progress_ms": null,
+    "timestamp_ms": null,
+    "colors": {
+      "dominant_color": [
+        [
+          21,
+          101,
+          157
+        ]
+      ],
+      "palette": [
+        [
+          21,
+          101,
+          157
+        ],
+        [
+          196,
+          93,
+          49
+        ],
+        [
+          230,
+          213,
+          183
+        ],
+        [
+          91,
+          75,
+          60
+        ],
+        [
+          112,
+          156,
+          195
+        ]
+      ]
+    }
+  },
+  {
+    "track_id": "0aGQHMr7bc23Y9Ts84ffop",
+    "uri": "spotify:track:0aGQHMr7bc23Y9Ts84ffop",
+    "title": "Around the World",
+    "artist": "Red Hot Chili Peppers",
+    "artist_id": "0L8ExT028jH3ddEcZwqJJ5",
+    "genres": [
+      "funk rock",
+      "alternative rock",
+      "rock"
+    ],
+    "type": "track",
+    "start_at_ms": 1756634538048,
+    "end_at_ms": 1756634776781,
+    "duration_ms": 238733,
+    "context_uri": null,
+    "is_current": false,
+    "progress_ms": null,
+    "timestamp_ms": null,
+    "colors": {
+      "dominant_color": [
+        [
+          21,
+          101,
+          157
+        ]
+      ],
+      "palette": [
+        [
+          21,
+          101,
+          157
+        ],
+        [
+          196,
+          93,
+          49
+        ],
+        [
+          230,
+          213,
+          183
+        ],
+        [
+          91,
+          75,
+          60
+        ],
+        [
+          112,
+          156,
+          195
+        ]
+      ]
+    }
+  }
+]
