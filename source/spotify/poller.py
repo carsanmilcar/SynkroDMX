@@ -1,6 +1,8 @@
 
 from __future__ import annotations
 
+"""Polling loop utilities for monitoring Spotify playback schedules."""
+
 import json
 import time
 from typing import Any, Callable, Dict, List, Optional
@@ -18,9 +20,7 @@ OnScheduleChange = Callable[[List[Dict[str, Any]]], None]
 OnError = Callable[[Exception], None]
 
 class SchedulerPoller:
-    """
-    Bucle de sondeo minimalista con backoff, detección de cambios y callbacks.
-    """
+    """Minimal polling loop with backoff, change detection, and callbacks."""
 
     def __init__(
         self,
@@ -37,7 +37,7 @@ class SchedulerPoller:
         self.last_start_ms: Optional[int] = None
 
     def _sleep_adaptive(self, schedule: List[Dict[str, Any]]) -> None:
-        """Duerme más rápido en el borde del cambio de pista."""
+        """Sleep faster near a track change boundary."""
         if not schedule:
             time.sleep(self.cfg.interval_normal_s)
             return
@@ -50,7 +50,7 @@ class SchedulerPoller:
             time.sleep(self.cfg.interval_normal_s)
 
     def _handle_schedule(self, schedule: List[Dict[str, Any]]) -> None:
-        """Llama al callback de cambio si hay nuevo track o seek significativo, y guarda JSON si procede."""
+        """Invoke the change callback on new track or seek and optionally dump JSON."""
         changed = False
         if schedule:
             cur = schedule[0]

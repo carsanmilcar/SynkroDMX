@@ -1,4 +1,6 @@
 
+"""Example script for authenticating and creating a Spotipy client."""
+
 from dotenv import load_dotenv
 import os
 import spotipy
@@ -20,9 +22,9 @@ if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET or not SPOTIFY_REDIRECT_UR
     )
 
 # Define the necessary scope
-# Mínimo para tema actual:
+# Minimum for current track:
 scope = "user-read-currently-playing"
-# Opcional (recomendado) para estado del reproductor y cola:
+# Optional (recommended) for player state and queue:
 # scope = "user-read-currently-playing user-read-playback-state"
 
 # Initialize the Spotipy client with OAuth
@@ -31,7 +33,7 @@ auth_manager = SpotifyOAuth(
     client_secret=SPOTIFY_CLIENT_SECRET,
     redirect_uri=SPOTIFY_REDIRECT_URI,
     scope=scope,
-    cache_path=".cache-spotify",  # Asegúrate de ignorarlo en .gitignore
+    cache_path=".cache-spotify",  # Make sure it's ignored in .gitignore
 )
 sp = spotipy.Spotify(auth_manager=auth_manager)
 

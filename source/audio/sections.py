@@ -9,7 +9,7 @@ class Section:
     end: float
 
 def segment_by_density(beats: List[float], drum_onsets: List[float]) -> List[Section]:
-    # Heurística simple: cada N compases alterna entre verso/coro
+    # Simple heuristic: every N bars alternates between verse and chorus
     bars = [beats[i] for i in range(0, len(beats), 4)]
     sections: List[Section] = []
     if not bars:

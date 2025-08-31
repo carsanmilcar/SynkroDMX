@@ -1,19 +1,23 @@
 
 from __future__ import annotations
 
+"""Helpers for creating a Spotipy client using OAuth credentials."""
+
 import os
 from typing import Optional
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
+
 def create_spotify_client(
     scope: str = "user-read-currently-playing",
     cache_path: Optional[str] = ".cache-spotify",
 ) -> spotipy.Spotify:
-    """
-    Crea un cliente Spotipy leyendo credenciales de entorno.
-    Requiere SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI.
+    """Create a Spotipy client using credentials from the environment.
+
+    Requires ``SPOTIFY_CLIENT_ID``, ``SPOTIFY_CLIENT_SECRET`` and
+    ``SPOTIFY_REDIRECT_URI`` to be set.
     """
     load_dotenv()
     client_id = os.getenv("SPOTIFY_CLIENT_ID")
@@ -22,7 +26,7 @@ def create_spotify_client(
 
     if not client_id or not client_secret or not redirect_uri:
         raise ValueError(
-            "Faltan variables de entorno: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI."
+            "Missing environment variables: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI."
         )
 
     auth_manager = SpotifyOAuth(
