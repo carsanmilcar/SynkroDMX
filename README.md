@@ -43,27 +43,44 @@ The result is a fully automated, beat-accurate light show that adapts to every s
 ```plaintext
 SynkroDMX/
 ├── README.md                  # Project description and usage
+├── notebooks/
+│    │    
+│    ├── synkrodmx_spotify_import_demo.ipynb
+│
 ├── requirements.txt           # Python dependencies
 ├── main.py                    # Main CLI entry point
-├── source/                    # Core source code
-│   ├── __init__.py
-│   ├── audio/                 # Playback sync & music analysis
-│   │   ├── __init__.py
-│   │   ├── midi_loader.py
-│   │   ├── tempo_map.py
-│   │   ├── sections.py
-│   │   └── spotify_sync.py
-│   ├── dmx/                   # DMX output & fixture mapping
-│   │   ├── __init__.py
-│   │   ├── ola_client.py
-│   │   └── patch.py
-│   ├── scenes/                # Scene and cue logic
-│   │   ├── __init__.py
-│   │   ├── generators.py
-│   │   └── cues.py
-│   └── pipeline/              # End-to-end show builder
-│       └── build_show.py
-├── tests/                     # Unit and integration tests
+├── src/
+│   └── synkrodmx/
+│       ├── __init__.py
+│       ├── audio/
+│       │   ├── midi_loader.py
+│       │   ├── sections.py
+│       │   ├── spotify_sync.py
+│       │   └── tempo_map.py
+│       ├── dmx/
+│       │   ├── __init__.py
+│       │   ├── dmx_control.py
+│       │   ├── ola_client.py
+│       │   └── patch.py
+│       ├── guitarpro/
+│       │   ├── __init__.py
+│       ├── pipeline/
+│       │   └── build_show.py
+│       ├── scenes/
+│       │   ├── __init__.py
+│       │   ├── cues.py
+│       │   ├── generators.py
+│       │   └── scene_manager.py
+│       └── spotify/
+│           ├── __init__.py
+│           ├── album_colors.py
+│           ├── auth.py
+│           ├── playback.py
+│           ├── poller.py
+│           ├── schedule.py
+│           ├── spotify_integration.py
+│           └── types.py
+└── tests/
 │   ├── __init__.py
 │   ├── test_midi.py
 │   ├── test_dmx.py
