@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+"""Build playback schedules and enrich them with album colors."""
+
 import time
 from typing import Any, Dict, List, Optional
 import spotipy
@@ -10,6 +12,7 @@ from .album_colors import get_album_colors_for_schedule_item
 
 
 def _now_ms() -> int:
+    """Return current time in milliseconds."""
     return int(time.time() * 1000)
 
 
@@ -19,9 +22,7 @@ def _attach_colors(
     color_count: int,
     quality: int,
 ) -> None:
-    """
-    Enriquecemos el bloque con 'colors'. Fallo silencioso si no se pueden obtener.
-    """
+    """Enrich the block with ``colors``. Fail silently if they cannot be fetched."""
     try:
         colors = get_album_colors_for_schedule_item(
             sp,
@@ -41,13 +42,13 @@ def build_schedule(
     color_count: int = 5,
     quality: int = 1,
 ) -> List[Dict[str, Any]]:
-    """
-    Devuelve [item_actual, item_1, item_2, ...] con tiempos absolutos calculados.
-    Añade 'colors' con paleta de la carátula si include_colors=True (por defecto).
+    """Return ``[current_item, item_1, item_2, ...]`` with absolute times.
 
-    Nota: obtener colores implica descargar la imagen del álbum, lo que puede
-    añadir latencia. Si prefieres diferirlo, llama con include_colors=False y
-    usa _attach_colors() más tarde.
+    Adds ``colors`` with the album cover palette when ``include_colors=True``.
+
+    Note: fetching colors requires downloading the album image which may add
+    latency. If you prefer to defer it, call with ``include_colors=False`` and
+    use :func:`_attach_colors` later.
     """
     pb = get_now_playing(sp)
     if not pb or not pb.get("is_playing") or not pb.get("item"):
@@ -62,7 +63,7 @@ def build_schedule(
 
     artist_names, main_artist_id, genres = extract_artist_and_genres(sp, item, item_type)
 
-    # Ancla temporal
+    # Temporal anchor
     start_current = timestamp_ms - progress_ms
     end_current = start_current + duration_ms
 
@@ -88,7 +89,7 @@ def build_schedule(
 
     schedule: List[Dict[str, Any]] = [current_block]
 
-    # Siguientes en cola
+    # Next items in queue
     nxt_items = get_queue_safe(sp, max_queue_items)
     cursor = end_current
     for nxt in nxt_items:

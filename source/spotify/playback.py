@@ -1,6 +1,8 @@
 
 from __future__ import annotations
 
+"""Helpers for reading playback information from Spotify."""
+
 import time
 from typing import Any, Dict, List, Optional, Tuple
 import spotipy
@@ -10,14 +12,15 @@ try:
 except Exception:  # pragma: no cover
     SpotifyException = Exception
 
-# Cache simple para géneros por artista
+# Simple cache for genres per artist
 _ARTIST_GENRES_CACHE: Dict[str, List[str]] = {}
 
+
 def get_now_playing(sp: spotipy.Spotify) -> Optional[Dict[str, Any]]:
-    """
-    Obtiene el estado de reproducción:
-    1) /me/player si el scope lo permite
-    2) Si no, /me/player/currently-playing con formato normalizado
+    """Retrieve playback state.
+
+    1. Attempt ``/me/player`` if the scope permits.
+    2. Fallback to ``/me/player/currently-playing`` with a normalized format.
     """
     try:
         pb = sp.current_playback(additional_types="track,episode")
@@ -44,7 +47,7 @@ def get_now_playing(sp: spotipy.Spotify) -> Optional[Dict[str, Any]]:
         return None
 
 def get_queue_safe(sp: spotipy.Spotify, max_items: int = 5) -> List[Dict[str, Any]]:
-    """Intenta leer /me/player/queue. Si falla o no hay scope, devuelve []."""
+    """Attempt to read ``/me/player/queue``; return ``[]`` on failure or missing scope."""
     try:
         q = sp.queue()
         return (q.get("queue") or [])[:max_items]
@@ -52,7 +55,7 @@ def get_queue_safe(sp: spotipy.Spotify, max_items: int = 5) -> List[Dict[str, An
         return []
 
 def _artist_genres(sp: spotipy.Spotify, artist_id: Optional[str]) -> List[str]:
-    """Devuelve géneros del artista principal con cache."""
+    """Return genres for the main artist with caching."""
     if not artist_id:
         return []
     cached = _ARTIST_GENRES_CACHE.get(artist_id)
@@ -66,14 +69,15 @@ def _artist_genres(sp: spotipy.Spotify, artist_id: Optional[str]) -> List[str]:
     _ARTIST_GENRES_CACHE[artist_id] = genres
     return genres
 
+
 def extract_artist_and_genres(
     sp: spotipy.Spotify,
     item: Dict[str, Any],
     item_type: str,
 ) -> Tuple[str, Optional[str], List[str]]:
-    """
-    Devuelve: (artist_names_csv, main_artist_id, genres[]).
-    Para episodios usa el 'publisher' o nombre del show y géneros vacíos.
+    """Return ``(artist_names_csv, main_artist_id, genres)``.
+
+    For episodes, use the publisher or show name and return empty genres.
     """
     if item_type == "track":
         artists = item.get("artists") or []

@@ -1,7 +1,5 @@
 
-"""
-Módulo Spotify para SynkroDMX: planificador mínimo de reproducción.
-"""
+"""Spotify module for SynkroDMX providing a minimal playback scheduler."""
 from .types import ScheduleItem, PollerConfig
 from .auth import create_spotify_client
 from .schedule import build_schedule
